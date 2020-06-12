@@ -1,0 +1,36 @@
+{
+  "posterServerApp": {
+    "billInfo": {
+      "home": {
+        "title": "Bill Infos",
+        "createLabel": "Create a new Bill Info",
+        "createOrEditLabel": "Create or edit a Bill Info",
+        "notFound": "No Bill Infos found"
+      },
+      "created": "A new Bill Info is created with identifier {{ param }}",
+      "updated": "A Bill Info is updated with identifier {{ param }}",
+      "deleted": "A Bill Info is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Bill Info {{ id }}?"
+      },
+      "detail": {
+        "title": "Bill Info"
+      },
+      "billUserName": "Bill User Name",
+      "billPic": "Bill Pic",
+      "billWord": "Bill Word",
+      "billAuthor": "Bill Author",
+      "billTime": "Bill Time",
+      "billLayoutMode": "Bill Layout Mode",
+      "billType": "Bill Type",
+      "help": {
+        "billUserName": "用户登录名",
+        "billPic": "海报图片",
+        "billWord": "海报文字",
+        "billAuthor": "海报签名",
+        "billTime": "发布时间",
+        "billLayoutMode": "布局方式"
+      }
+    }
+  }
+}

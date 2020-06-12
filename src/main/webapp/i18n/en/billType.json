@@ -1,0 +1,29 @@
+{
+  "posterServerApp": {
+    "billType": {
+      "home": {
+        "title": "Bill Types",
+        "createLabel": "Create a new Bill Type",
+        "createOrEditLabel": "Create or edit a Bill Type",
+        "notFound": "No Bill Types found"
+      },
+      "created": "A new Bill Type is created with identifier {{ param }}",
+      "updated": "A Bill Type is updated with identifier {{ param }}",
+      "deleted": "A Bill Type is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Bill Type {{ id }}?"
+      },
+      "detail": {
+        "title": "Bill Type"
+      },
+      "billTypeName": "Bill Type Name",
+      "billTypeSort": "Bill Type Sort",
+      "dataTime": "Data Time",
+      "help": {
+        "billTypeName": "分类名称",
+        "billTypeSort": "分类排序",
+        "dataTime": "创建时间"
+      }
+    }
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "name": "BillInfo",
+  "fields": [
+    {
+      "fieldName": "billUserName",
+      "fieldType": "String",
+      "javadoc": "用户登录名"
+    },
+    {
+      "fieldName": "billPic",
+      "fieldType": "String",
+      "javadoc": "海报图片"
+    },
+    {
+      "fieldName": "billWord",
+      "fieldType": "String",
+      "javadoc": "海报文字"
+    },
+    {
+      "fieldName": "billAuthor",
+      "fieldType": "String",
+      "javadoc": "海报签名"
+    },
+    {
+      "fieldName": "billTime",
+      "fieldType": "ZonedDateTime",
+      "javadoc": "发布时间"
+    },
+    {
+      "fieldName": "billLayoutMode",
+      "fieldType": "String",
+      "javadoc": "布局方式"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "billType",
+      "otherEntityRelationshipName": "billInfo",
+      "javadoc": "海报表--海报分类表",
+      "relationshipName": "billType",
+      "otherEntityField": "id"
+    }
+  ],
+  "changelogDate": "20200612132017",
+  "javadoc": "海报信息表",
+  "entityTableName": "bill_info",
+  "dto": "no",
+  "pagination": "pagination",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}

@@ -1,0 +1,33 @@
+{
+  "name": "BillType",
+  "fields": [
+    {
+      "fieldName": "billTypeName",
+      "fieldType": "String",
+      "javadoc": "分类名称"
+    },
+    {
+      "fieldName": "billTypeSort",
+      "fieldType": "Integer",
+      "javadoc": "分类排序"
+    },
+    {
+      "fieldName": "dataTime",
+      "fieldType": "ZonedDateTime",
+      "javadoc": "创建时间"
+    }
+  ],
+  "relationships": [],
+  "changelogDate": "20200612132117",
+  "javadoc": "海报分类表",
+  "entityTableName": "bill_type",
+  "dto": "no",
+  "pagination": "pagination",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}

@@ -1,0 +1,56 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="billInfo">
+            <h2><span jhiTranslate="posterServerApp.billInfo.detail.title">Bill Info</span> {{ billInfo.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="posterServerApp.billInfo.billUserName" [ngbTooltip]="'posterServerApp.billInfo.help.billUserName' | translate">Bill User Name</span></dt>
+                <dd>
+                    <span>{{ billInfo.billUserName }}</span>
+                </dd>
+                <dt><span jhiTranslate="posterServerApp.billInfo.billPic" [ngbTooltip]="'posterServerApp.billInfo.help.billPic' | translate">Bill Pic</span></dt>
+                <dd>
+                    <span>{{ billInfo.billPic }}</span>
+                </dd>
+                <dt><span jhiTranslate="posterServerApp.billInfo.billWord" [ngbTooltip]="'posterServerApp.billInfo.help.billWord' | translate">Bill Word</span></dt>
+                <dd>
+                    <span>{{ billInfo.billWord }}</span>
+                </dd>
+                <dt><span jhiTranslate="posterServerApp.billInfo.billAuthor" [ngbTooltip]="'posterServerApp.billInfo.help.billAuthor' | translate">Bill Author</span></dt>
+                <dd>
+                    <span>{{ billInfo.billAuthor }}</span>
+                </dd>
+                <dt><span jhiTranslate="posterServerApp.billInfo.billTime" [ngbTooltip]="'posterServerApp.billInfo.help.billTime' | translate">Bill Time</span></dt>
+                <dd>
+                    <span>{{ billInfo.billTime }}</span>
+                </dd>
+                <dt><span jhiTranslate="posterServerApp.billInfo.billLayoutMode" [ngbTooltip]="'posterServerApp.billInfo.help.billLayoutMode' | translate">Bill Layout Mode</span></dt>
+                <dd>
+                    <span>{{ billInfo.billLayoutMode }}</span>
+                </dd>
+                <dt><span jhiTranslate="posterServerApp.billInfo.billType">Bill Type</span></dt>
+                <dd>
+                    <div *ngIf="billInfo.billType">
+                        <a [routerLink]="['/bill-type', billInfo.billType?.id, 'view']">{{ billInfo.billType?.id }}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/bill-info', billInfo.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

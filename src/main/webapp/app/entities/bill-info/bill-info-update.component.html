@@ -1,0 +1,71 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-bill-info-heading" jhiTranslate="posterServerApp.billInfo.home.createOrEditLabel">Create or edit a Bill Info</h2>
+
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+
+                <div class="form-group" [hidden]="!editForm.get('id')!.value">
+                    <label for="id" jhiTranslate="global.field.id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id" readonly />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="posterServerApp.billInfo.billUserName" for="field_billUserName" [ngbTooltip]="'posterServerApp.billInfo.help.billUserName' | translate">Bill User Name</label>
+                    <input type="text" class="form-control" name="billUserName" id="field_billUserName"
+                           formControlName="billUserName"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="posterServerApp.billInfo.billPic" for="field_billPic" [ngbTooltip]="'posterServerApp.billInfo.help.billPic' | translate">Bill Pic</label>
+                    <input type="text" class="form-control" name="billPic" id="field_billPic"
+                           formControlName="billPic"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="posterServerApp.billInfo.billWord" for="field_billWord" [ngbTooltip]="'posterServerApp.billInfo.help.billWord' | translate">Bill Word</label>
+                    <input type="text" class="form-control" name="billWord" id="field_billWord"
+                           formControlName="billWord"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="posterServerApp.billInfo.billAuthor" for="field_billAuthor" [ngbTooltip]="'posterServerApp.billInfo.help.billAuthor' | translate">Bill Author</label>
+                    <input type="text" class="form-control" name="billAuthor" id="field_billAuthor"
+                           formControlName="billAuthor"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="posterServerApp.billInfo.billTime" for="field_billTime" [ngbTooltip]="'posterServerApp.billInfo.help.billTime' | translate">Bill Time</label>
+                    <div class="d-flex">
+                        <input id="field_billTime" type="datetime-local" class="form-control" name="billTime" formControlName="billTime" placeholder="YYYY-MM-DD HH:mm"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="posterServerApp.billInfo.billLayoutMode" for="field_billLayoutMode" [ngbTooltip]="'posterServerApp.billInfo.help.billLayoutMode' | translate">Bill Layout Mode</label>
+                    <input type="text" class="form-control" name="billLayoutMode" id="field_billLayoutMode"
+                           formControlName="billLayoutMode"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="posterServerApp.billInfo.billType" for="field_billType">Bill Type</label>
+                    <select class="form-control" id="field_billType" name="billType" formControlName="billType">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="billTypeOption.id === editForm.get('billType')!.value?.id ? editForm.get('billType')!.value : billTypeOption" *ngFor="let billTypeOption of billtypes; trackBy: trackById">{{ billTypeOption.id }}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+                    <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
