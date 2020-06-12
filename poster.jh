@@ -1,0 +1,34 @@
+/**海报信息表*/
+entity BillInfo {
+    /**用户登录名*/
+    billUserName String,
+    /**海报图片*/
+    billPic String,
+    /**海报文字*/
+    billWord String,
+    /**海报签名*/
+    billAuthor String,
+    /**发布时间*/
+    billTime ZonedDateTime,
+    /**布局方式*/
+    billLayoutMode String
+}
+
+/**海报分类表*/
+entity BillType{
+     /**分类名称*/
+    billTypeName String,
+    /**分类排序*/
+    billTypeSort Integer,
+    /**创建时间*/
+    dataTime ZonedDateTime
+}
+
+/**外键*/
+relationship ManyToOne {
+    /**海报表--海报分类表*/
+   BillInfo{billType} to BillType
+}
+
+paginate all with pagination
+service all with serviceImpl 

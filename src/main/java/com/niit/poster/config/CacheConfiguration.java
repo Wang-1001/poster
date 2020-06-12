@@ -48,6 +48,8 @@ public class CacheConfiguration {
             createCache(cm, com.niit.poster.domain.User.class.getName());
             createCache(cm, com.niit.poster.domain.Authority.class.getName());
             createCache(cm, com.niit.poster.domain.User.class.getName() + ".authorities");
+            createCache(cm, com.niit.poster.domain.BillInfo.class.getName());
+            createCache(cm, com.niit.poster.domain.BillType.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }
