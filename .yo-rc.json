@@ -1,0 +1,43 @@
+{
+  "generator-jhipster": {
+    "promptValues": {
+      "packageName": "com.niit.poster",
+      "nativeLanguage": "zh-cn"
+    },
+    "jhipsterVersion": "6.9.1",
+    "applicationType": "monolith",
+    "baseName": "poster_server",
+    "packageName": "com.niit.poster",
+    "packageFolder": "com/niit/poster",
+    "serverPort": "8080",
+    "authenticationType": "jwt",
+    "cacheProvider": "ehcache",
+    "enableHibernateCache": true,
+    "websocket": false,
+    "databaseType": "sql",
+    "devDatabaseType": "mysql",
+    "prodDatabaseType": "mysql",
+    "searchEngine": false,
+    "messageBroker": false,
+    "serviceDiscoveryType": false,
+    "buildTool": "maven",
+    "enableSwaggerCodegen": false,
+    "jwtSecretKey": "NmI3YWQ5ZDAwZjNlNDczNTZjOWE2YTUyOTA0ZWY3NTc2ZmE1MDExYzRjNDBjMTA4NGFhMTgyMDYwMjUxMjU5MGM4ZjBmOTAxZDE5MTg5MzQ2MDc4ZmNhMzQ3OGM2MjZhYmJkNDRiZjJlYjZjMWE4NmY5NTcwNjY3NGVlMTYxODQ=",
+    "embeddableLaunchScript": false,
+    "useSass": true,
+    "clientPackageManager": "npm",
+    "clientFramework": "angularX",
+    "clientTheme": "none",
+    "clientThemeVariant": "",
+    "creationTimestamp": 1591965975219,
+    "testFrameworks": [],
+    "jhiPrefix": "jhi",
+    "entitySuffix": "",
+    "dtoSuffix": "DTO",
+    "otherModules": [],
+    "enableTranslation": true,
+    "nativeLanguage": "zh-cn",
+    "languages": ["zh-cn", "en"],
+    "blueprints": []
+  }
+}
