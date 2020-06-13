@@ -5,6 +5,7 @@ import com.niit.poster.domain.BillInfo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -43,4 +44,43 @@ public interface BillInfoService {
      * @param id the id of the entity.
      */
     void delete(Long id);
+
+    /**
+     *  查询海报
+     *  通过 Jdbc(SQL语句)进行查询
+     * @return
+     */
+//    List<BillInfo> getAllBillInfoJdbcOld();
+
+    /**
+     * 根据 海报类型ID 和 海报文字 模糊查询 海报
+     * 通过 Jdbc(SQL语句)进行查询
+     * @param keywords
+     * @param billTypeId
+     * @return
+     */
+//    List<BillInfo> getAllBillInfoJdbc(String keywords, Integer billTypeId);
+
+    /**
+     * 根据 海报类型ID 和 海报文字 模糊查询 海报
+     * 通过 Jdbc(SQL语句)进行查询
+     * 对以上方法进行改造， 添加分页参数
+     * @param keywords
+     * @param billTypeId
+     * @param pageIndex
+     * @param pageSize
+     * @return
+     */
+    List<BillInfo> getAllBillInfoJdbc(String keywords, Integer billTypeId,Integer pageIndex, Integer pageSize);
+
+    /**
+     * 根据 海报类型ID 和 海报文字 模糊查询 海报
+     * 通过 Jdbc(SQL语句)进行查询
+     * 分页
+     * @param keywords
+     * @param billTypeId
+     * @return
+     */
+    Page<BillInfo> getAllBillInfoJdbcPaged(String keywords, Integer billTypeId,Integer pageIndex, Integer pageSize);
+
 }

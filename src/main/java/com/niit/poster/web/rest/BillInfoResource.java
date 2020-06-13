@@ -122,4 +122,54 @@ public class BillInfoResource {
         billInfoService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
     }
+
+    /**
+     * 查询海报
+     * 通过 Jdbc(SQL语句)进行查询
+     * @return
+     */
+//    @GetMapping("/bill-info/all/jdbc-old")
+//    public ResponseEntity getAllBillInfoJdbcOld(){
+//        try{
+//            List<BillInfo> result = billInfoService.getAllBillInfoJdbcOld();
+//            return ResponseEntity.ok(result);
+//        }catch (Exception e){
+//            e.printStackTrace();
+//            throw new BadRequestAlertException(e.getMessage(),"getAllBillInfoJdbcOld",e.getLocalizedMessage());
+//        }
+//
+//    }
+
+    /**
+     * 根据 海报类型ID 和 海报文字 模糊查询 海报
+     * 通过 Jdbc(SQL语句)进行查询
+     * @param keywords
+     * @param billTypeId
+     * @return
+     */
+//    @GetMapping("/bill-info/all/jdbc")
+//    public ResponseEntity getAllBillInfoJdbc(String keywords, Integer billTypeId ){
+//        try{
+//            List<BillInfo> result = billInfoService.getAllBillInfoJdbc(keywords,billTypeId);
+//            return ResponseEntity.ok(result);
+//        }catch (Exception e){
+//            e.printStackTrace();
+//            throw new BadRequestAlertException(e.getMessage(),"getAllBillInfoJdbc",e.getLocalizedMessage());
+//        }
+//
+//    }
+
+    @GetMapping("/bill-info/all/jdbc")
+    public ResponseEntity getAllBillInfoJdbc(String keywords, Integer billTypeId,Integer pageIndex, Integer pageSize){
+        try{
+            Page<BillInfo> result = billInfoService.getAllBillInfoJdbcPaged(keywords,billTypeId,pageIndex,pageSize);
+            return ResponseEntity.ok(result);
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new BadRequestAlertException(e.getMessage(),"getAllBillInfoJdbc",e.getLocalizedMessage());
+        }
+
+    }
+
+
 }

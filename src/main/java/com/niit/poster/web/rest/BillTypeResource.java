@@ -122,4 +122,20 @@ public class BillTypeResource {
         billTypeService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
     }
+
+    /**
+     * 查询全部海报分类
+     * 通过 Jdbc(SQL语句)进行查询
+     * @return
+     */
+    @GetMapping("/bill-type/all/jdbc")
+    public ResponseEntity getAllBillTypeJdbc(){
+        try {
+            List<BillType> result = billTypeService.getAllBillTypeJdbc();
+            return ResponseEntity.ok(result);
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new BadRequestAlertException(e.getMessage(),e.getMessage(),e.getLocalizedMessage());
+        }
+    }
 }

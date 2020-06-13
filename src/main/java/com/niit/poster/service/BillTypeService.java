@@ -5,6 +5,7 @@ import com.niit.poster.domain.BillType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -43,5 +44,12 @@ public interface BillTypeService {
      * @param id the id of the entity.
      */
     void delete(Long id);
+
+    /**
+     * 查询全部海报分类
+     * 通过 Jdbc(SQL语句)进行查询
+     * @return
+     */
+    List<BillType> getAllBillTypeJdbc();
 
 }
