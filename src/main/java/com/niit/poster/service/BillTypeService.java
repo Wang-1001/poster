@@ -52,4 +52,15 @@ public interface BillTypeService {
      */
     List<BillType> getAllBillTypeJdbc();
 
+    /**
+     * 根据 分类排序 查询 所有海报分类
+     * 通过 JPA
+     * 分页
+     * @param billTypeSort
+     * @param pageIndex
+     * @param pageSize
+     * @return
+     */
+    Page<BillType> getAllBillTypeJpa(Integer billTypeSort,Integer pageIndex, Integer pageSize);
+
 }

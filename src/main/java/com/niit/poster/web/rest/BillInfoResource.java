@@ -159,6 +159,14 @@ public class BillInfoResource {
 //
 //    }
 
+    /**
+     * 根据 海报类型ID 和 海报文字 模糊查询 海报
+     * 通过 Jdbc(SQL语句)进行查询
+     * 分页
+     * @param keywords
+     * @param billTypeId
+     * @return
+     */
     @GetMapping("/bill-info/all/jdbc")
     public ResponseEntity getAllBillInfoJdbc(String keywords, Integer billTypeId,Integer pageIndex, Integer pageSize){
         try{
@@ -167,6 +175,50 @@ public class BillInfoResource {
         }catch (Exception e){
             e.printStackTrace();
             throw new BadRequestAlertException(e.getMessage(),"getAllBillInfoJdbc",e.getLocalizedMessage());
+        }
+
+    }
+
+    /**
+     * 根据关键字(海报文字)查询
+     * 通过 JPA
+     * 分页
+     * @param keywords
+     * @param billTypeId
+     * @param pageIndex
+     * @param pageSize
+     * @return
+     */
+//    @GetMapping("/bill-info/all/jpa")
+//    public ResponseEntity getAllBillInfoJpa(String keywords,Long billTypeId,Integer pageIndex, Integer pageSize){
+//        try{
+//            Page<BillInfo> result = billInfoService.getAllBillInfoJpa(keywords,pageIndex,pageSize);
+//            return ResponseEntity.ok(result);
+//        }catch (Exception e){
+//            e.printStackTrace();
+//            throw new BadRequestAlertException(e.getMessage(),"getAllBillInfoJpa",e.getLocalizedMessage());
+//        }
+//
+//    }
+
+    /**
+     * 根据 海报类型ID 和 海报文字 模糊查询 海报
+     * 通过 JPA
+     * 分页
+     * @param keywords
+     * @param billTypeId
+     * @param pageIndex
+     * @param pageSize
+     * @return
+     */
+    @GetMapping("/bill-info/all/jpa")
+    public ResponseEntity getAllBillInfoJpa(String keywords, Long billTypeId,Integer pageIndex, Integer pageSize){
+        try{
+            Page<BillInfo> result = billInfoService.getAllBillInfoJpa(keywords,billTypeId,pageIndex,pageSize);
+            return ResponseEntity.ok(result);
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new BadRequestAlertException(e.getMessage(),"getAllBillInfoJpa",e.getLocalizedMessage());
         }
 
     }

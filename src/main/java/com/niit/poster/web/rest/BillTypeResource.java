@@ -135,7 +135,27 @@ public class BillTypeResource {
             return ResponseEntity.ok(result);
         }catch (Exception e){
             e.printStackTrace();
-            throw new BadRequestAlertException(e.getMessage(),e.getMessage(),e.getLocalizedMessage());
+            throw new BadRequestAlertException(e.getMessage(),"getAllBillTypeJdbc",e.getLocalizedMessage());
+        }
+    }
+
+    /**
+     * 根据 分类排序 查询 所有海报分类
+     * 通过 JPA
+     * 分页
+     * @param billTypeSort
+     * @param pageIndex
+     * @param pageSize
+     * @return
+     */
+    @GetMapping("/bill-type/all/jpa")
+    public ResponseEntity getAllBillTypeJpa(Integer billTypeSort,Integer pageIndex, Integer pageSize){
+        try {
+            Page<BillType> result = billTypeService.getAllBillTypeJpa(billTypeSort,pageIndex,pageSize);
+            return ResponseEntity.ok(result);
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new BadRequestAlertException(e.getMessage(),"getAllBillTypeJpa",e.getLocalizedMessage());
         }
     }
 }

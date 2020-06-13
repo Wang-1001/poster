@@ -17,7 +17,7 @@ import java.time.ZonedDateTime;
 @ApiModel(description = "海报信息表")
 @Entity
 @Table(name = "bill_info")
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)//缓存注解
 public class BillInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;

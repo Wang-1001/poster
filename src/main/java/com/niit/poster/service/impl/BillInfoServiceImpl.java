@@ -291,5 +291,52 @@ public class BillInfoServiceImpl implements BillInfoService {
         return new PageImpl(billInfoList, PageRequest.of(pageIndex,pageSize),tatalCount);
     }
 
+    /**
+     * 根据关键字(海报文字)查询
+     * 通过 JPA
+     * 分页
+     * @param keywords
+     * @param pageIndex
+     * @param pageSize
+     * @return
+     */
+//    @Override
+//    public Page<BillInfo> getAllBillInfoJpa(String keywords,Integer pageIndex, Integer pageSize) {
+//        if (keywords==null)keywords="";
+//        if (pageIndex==null)pageIndex=0;
+//        if (pageSize==null)pageSize=5;
+//
+//        keywords="%" + keywords.replace("'","''") + "%";
+//        Page<BillInfo> result = billInfoRepository.findByBillWordLike(keywords,PageRequest.of(pageIndex,pageSize));
+//        return result;
+//    }
+
+    /**
+     * 根据 海报类型ID 和 海报文字 模糊查询 海报
+     * 通过 JPA
+     * 分页
+     * @param keywords
+     * @param pageIndex
+     * @param pageSize
+     * @return
+     */
+    @Override
+    public Page<BillInfo> getAllBillInfoJpa(String keywords,Long billTypeId, Integer pageIndex, Integer pageSize) {
+        if (keywords==null)keywords="";
+        if (billTypeId==null)billTypeId=0l;
+        if (pageIndex==null)pageIndex=0;
+        if (pageSize==null)pageSize=5;
+
+        keywords="%" + keywords.replace("'","''") + "%";
+        Page<BillInfo> result = null;
+        if (billTypeId>0){
+            result = billInfoRepository.findByBillWordLikeAndBillTypeId(keywords,billTypeId,PageRequest.of(pageIndex,pageSize));
+        }else {
+            result = billInfoRepository.findByBillWordLike(keywords,PageRequest.of(pageIndex,pageSize));
+        }
+
+        return result;
+    }
+
 
 }
