@@ -61,6 +61,14 @@ public interface BillTypeService {
      * @param pageSize
      * @return
      */
-    Page<BillType> getAllBillTypeJpa(Integer billTypeSort,Integer pageIndex, Integer pageSize);
+//    Page<BillType> getAllBillTypeJpa(Integer billTypeSort,Integer pageIndex, Integer pageSize);
+
+    /**
+     * 根据 海报分类排序 倒叙 查询所有
+     * 通过 JPA
+     * 不分页
+     * @return
+     */
+    List<BillType> getAllBillTypeJpa();
 
 }

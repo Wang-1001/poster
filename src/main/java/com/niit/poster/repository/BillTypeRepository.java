@@ -7,6 +7,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * Spring Data  repository for the BillType entity.
  */
@@ -22,6 +24,15 @@ public interface BillTypeRepository extends JpaRepository<BillType, Long> {
      * @param page
      * @return
      */
-    Page<BillType> findByBillTypeSort(Integer billTypeSort, Pageable page);
+//    功能可实现，没有太大意义
+//    Page<BillType> findAllByBillTypeSort(Integer billTypeSort, Pageable page);
+
+    /**
+     * 根据 海报分类排序 倒叙 查询所有
+     * 通过 JPA
+     * 不分页
+     * @return
+     */
+    List<BillType> findAllByOrderByBillTypeSortDesc();
 
 }

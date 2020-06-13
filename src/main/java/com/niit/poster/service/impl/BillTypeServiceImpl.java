@@ -125,18 +125,30 @@ public class BillTypeServiceImpl implements BillTypeService {
      * @param pageSize
      * @return
      */
-    @Override
-    public Page<BillType> getAllBillTypeJpa(Integer billTypeSort, Integer pageIndex, Integer pageSize) {
-        if (billTypeSort==null)billTypeSort=0;
-        if (pageIndex==null)pageIndex=0;
-        if (pageSize==null)pageSize=5;
+//    @Override
+//    public Page<BillType> getAllBillTypeJpa(Integer billTypeSort, Integer pageIndex, Integer pageSize) {
+//        if (billTypeSort==null)billTypeSort=0;
+//        if (pageIndex==null)pageIndex=0;
+//        if (pageSize==null)pageSize=5;
+//
+//        Page<BillType> result = null;
+//        if (billTypeSort>0){
+//            result = billTypeRepository.findAllByBillTypeSort(billTypeSort,PageRequest.of(pageIndex,pageSize));
+//        }else {
+//            result = billTypeRepository.findAll(PageRequest.of(pageIndex,pageSize));
+//        }
+//        return result;
+//    }
 
-        Page<BillType> result = null;
-        if (billTypeSort>0){
-            result = billTypeRepository.findByBillTypeSort(billTypeSort,PageRequest.of(pageIndex,pageSize));
-        }else {
-            result = billTypeRepository.findAll(PageRequest.of(pageIndex,pageSize));
-        }
+    /**
+     * 根据 海报分类排序 倒叙 查询所有
+     * 通过 JPA
+     * 不分页
+     * @return
+     */
+    @Override
+    public List<BillType> getAllBillTypeJpa() {
+        List<BillType> result = billTypeRepository.findAllByOrderByBillTypeSortDesc();
         return result;
     }
 }
