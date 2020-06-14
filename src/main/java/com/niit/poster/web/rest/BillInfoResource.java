@@ -223,5 +223,31 @@ public class BillInfoResource {
 
     }
 
+    /**
+     * 根据 海报类型ID 和 海报文字 模糊查询 海报
+     * 通过 JPA + @Query注解
+     * 分页
+     * @param keywords
+     * @param billTypeId
+     * @param pageIndex
+     * @param pageSize
+     * @return
+     */
+    @GetMapping("/bill-info/all/jpa-query/{billTypeId}")
+    public ResponseEntity getAllBillInfoJpaQuery(
+        @RequestParam(required = false,defaultValue = "") String keywords,
+        @PathVariable Long billTypeId,
+        @RequestParam(required = false,defaultValue = "0") Integer pageIndex,
+        @RequestParam(required = false,defaultValue = "5") Integer pageSize){
+        try{
+            Page<BillInfo> result = billInfoService.getAllBillInfoJpaQuery(keywords,billTypeId,pageIndex,pageSize);
+            return ResponseEntity.ok(result);
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new BadRequestAlertException(e.getMessage(),"getAllBillInfoJpaQuery",e.getLocalizedMessage());
+        }
+
+    }
+
 
 }

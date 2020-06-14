@@ -105,4 +105,16 @@ public interface BillInfoService {
      */
     Page<BillInfo> getAllBillInfoJpa(String keywords,Long billTypeId,Integer pageIndex, Integer pageSize);
 
+    /**
+     * 根据 海报类型ID 和 海报文字 模糊查询 海报
+     * 通过 JPA + @Query注解
+     * 分页
+     * @param keywords
+     * @param billTypeId
+     * @param pageIndex
+     * @param pageSize
+     * @return
+     */
+    Page<BillInfo> getAllBillInfoJpaQuery(String keywords,Long billTypeId,Integer pageIndex, Integer pageSize);
+
 }

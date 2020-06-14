@@ -338,5 +338,27 @@ public class BillInfoServiceImpl implements BillInfoService {
         return result;
     }
 
+    /**
+     * 根据 海报类型ID 和 海报文字 模糊查询 海报
+     * 通过 JPA + @Query注解
+     * 分页
+     * @param keywords
+     * @param billTypeId
+     * @param pageIndex
+     * @param pageSize
+     * @return
+     */
+    @Override
+    public Page<BillInfo> getAllBillInfoJpaQuery(String keywords, Long billTypeId, Integer pageIndex, Integer pageSize) {
+       /* if (keywords==null)keywords="";
+        if (billTypeId==null)billTypeId=0l;
+        if (pageIndex==null)pageIndex=0;
+        if (pageSize==null)pageSize=5;*/
+        keywords="%" + keywords.replace("'","''") + "%";
+
+        Page<BillInfo> result = billInfoRepository.getBills(keywords,billTypeId.intValue(),PageRequest.of(pageIndex,pageSize));
+        return result;
+    }
+
 
 }
