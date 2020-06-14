@@ -117,4 +117,11 @@ public interface BillInfoService {
      */
     Page<BillInfo> getAllBillInfoJpaQuery(String keywords,Long billTypeId,Integer pageIndex, Integer pageSize);
 
+    /**
+     * 添加海报
+     * @param billInfo
+     * @return
+     */
+    BillInfo addBill(BillInfo billInfo);
+
 }

@@ -249,5 +249,22 @@ public class BillInfoResource {
 
     }
 
+    /**
+     * 添加海报
+     * @param billInfo
+     * @return
+     */
+    @PostMapping("/bill-infos/add")
+    public ResponseEntity addBill(@RequestBody BillInfo billInfo){
+        try{
+            BillInfo result = billInfoService.addBill(billInfo);
+            return ResponseEntity.ok(result);
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new BadRequestAlertException(e.getMessage(),"addBill",e.getLocalizedMessage());
+        }
+
+    }
+
 
 }

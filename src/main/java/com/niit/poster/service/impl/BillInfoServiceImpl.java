@@ -360,5 +360,21 @@ public class BillInfoServiceImpl implements BillInfoService {
         return result;
     }
 
+    /**
+     * 添加海报
+     * @param billInfo
+     * @return
+     */
+    @Override
+    public BillInfo addBill(BillInfo billInfo) {
+        //调用Repository中已有的添加方法
+        billInfo.setBillUserName("admin");
+        billInfo.setBillTime(ZonedDateTime.now());
+
+        BillInfo result = billInfoRepository.save(billInfo);
+
+        return result;
+    }
+
 
 }
