@@ -205,7 +205,7 @@ public class BillInfoServiceImpl implements BillInfoService {
      * @return
      */
     @Override
-    public List<BillInfo> getAllBillInfoJdbc(String keywords, Integer billTypeId,Integer pageIndex, Integer pageSize) {
+    public List<BillInfo> getAllBillInfoJdbc(String keywords, Integer billTypeId, String userName, Integer pageIndex, Integer pageSize) {
         if (keywords==null)keywords="";
         if (billTypeId==null)billTypeId=0;
         if (pageIndex==null)pageIndex=0;
@@ -222,6 +222,9 @@ public class BillInfoServiceImpl implements BillInfoService {
             "  AND bill_word LIKE '%" + keywords.replace("'","''") + "%' ";
         if (billTypeId > 0){
             sql +=  "  AND bill_type_id =" + billTypeId;
+        }
+        if (userName != null){
+            sql += " AND bill_user_name = '" + userName + "'";
         }
         sql += " LIMIT " + pageIndex*pageSize + "," + pageSize;
 
@@ -263,14 +266,14 @@ public class BillInfoServiceImpl implements BillInfoService {
      * @return
      */
     @Override
-    public Page<BillInfo> getAllBillInfoJdbcPaged(String keywords, Integer billTypeId,Integer pageIndex, Integer pageSize) {
+    public Page<BillInfo> getAllBillInfoJdbcPaged(String keywords, Integer billTypeId, String userName, Integer pageIndex, Integer pageSize) {
         if (keywords==null)keywords="";
         if (billTypeId==null)billTypeId=0;
         if (pageIndex==null)pageIndex=0;
         if (pageSize==null)pageSize=5;
         //分页返回
         //1、分页的列表   List<BillInfo>
-        List<BillInfo> billInfoList = this.getAllBillInfoJdbc(keywords, billTypeId, pageIndex, pageSize);
+        List<BillInfo> billInfoList = this.getAllBillInfoJdbc(keywords, billTypeId, userName, pageIndex, pageSize);
         //2、数据总数   Long
         String totalSql = "SELECT " +
             "  COUNT(1) totalCount " +
@@ -281,6 +284,9 @@ public class BillInfoServiceImpl implements BillInfoService {
             "  AND bill_word LIKE '%" + keywords.replace("'","''") + "%' ";
         if (billTypeId > 0){
             totalSql +=  "  AND bill_type_id =" + billTypeId;
+        }
+        if (userName != null){
+            totalSql += " AND bill_user_name = '" + userName + "'";
         }
         Map<String,Object> totalItem = jdbcTemplate.queryForMap(totalSql);
         Long tatalCount =0l;

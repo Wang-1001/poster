@@ -71,7 +71,7 @@ public interface BillInfoService {
      * @param pageSize
      * @return
      */
-    List<BillInfo> getAllBillInfoJdbc(String keywords, Integer billTypeId,Integer pageIndex, Integer pageSize);
+    List<BillInfo> getAllBillInfoJdbc(String keywords, Integer billTypeId, String userName, Integer pageIndex, Integer pageSize);
 
     /**
      * 根据 海报类型ID 和 海报文字 模糊查询 海报
@@ -81,7 +81,7 @@ public interface BillInfoService {
      * @param billTypeId
      * @return
      */
-    Page<BillInfo> getAllBillInfoJdbcPaged(String keywords, Integer billTypeId,Integer pageIndex, Integer pageSize);
+    Page<BillInfo> getAllBillInfoJdbcPaged(String keywords, Integer billTypeId, String userName, Integer pageIndex, Integer pageSize);
 
     /**
      * 根据关键字(海报文字)查询

@@ -170,9 +170,33 @@ public class BillInfoResource {
      * @return
      */
     @GetMapping("/bill-info/all/jdbc")
-    public ResponseEntity getAllBillInfoJdbc(String keywords, Integer billTypeId,Integer pageIndex, Integer pageSize){
+    public ResponseEntity getAllBillInfoJdbc(String keywords, Integer billTypeId, Integer pageIndex, Integer pageSize){
         try{
-            Page<BillInfo> result = billInfoService.getAllBillInfoJdbcPaged(keywords,billTypeId,pageIndex,pageSize);
+            Page<BillInfo> result = billInfoService.getAllBillInfoJdbcPaged(keywords,billTypeId,null,pageIndex,pageSize);
+            return ResponseEntity.ok(result);
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new BadRequestAlertException(e.getMessage(),"getAllBillInfoJdbc",e.getLocalizedMessage());
+        }
+
+    }
+
+
+    /**
+     * 根据 海报类型ID、用户名、海报文字 查询 登录人的海报
+     * 通过 Jdbc(SQL语句)进行查询
+     * 分页
+     * @param keywords
+     * @param billTypeId
+     * @param pageIndex
+     * @param pageSize
+     * @return
+     */
+    @GetMapping("/bill-info/mine/jdbc")
+    public ResponseEntity getMyBillInfoJdbc(String keywords, Integer billTypeId, Integer pageIndex, Integer pageSize){
+        try{
+            String loginname = SecurityUtils.getCurrentUserLogin().get();
+            Page<BillInfo> result = billInfoService.getAllBillInfoJdbcPaged(keywords,billTypeId,loginname,pageIndex,pageSize);
             return ResponseEntity.ok(result);
         }catch (Exception e){
             e.printStackTrace();
