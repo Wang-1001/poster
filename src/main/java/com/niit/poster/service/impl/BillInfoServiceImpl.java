@@ -361,12 +361,35 @@ public class BillInfoServiceImpl implements BillInfoService {
     }
 
     /**
+     * 海报新增
+     * 通过 JdbcTemplate
+     * @param billInfo
+     * @return
+     */
+    @Override
+    public BillInfo creatBillJdbc(BillInfo billInfo) {
+        String sql="INSERT INTO bill_info (bill_user_name, bill_pic, bill_word, bill_author, bill_time, bill_layout_mode, bill_type_id) " +
+            "VALUES ('"+billInfo.getBillUserName()
+            +"', '"+billInfo.getBillPic()
+            +"', '"+billInfo.getBillWord()
+            +"', '"+billInfo.getBillAuthor()+"', now(), '"
+            +billInfo.getBillLayoutMode()+"',"+(billInfo.getBillType()==null?"null":billInfo.getBillType().getId())+")";
+        int result=this.jdbcTemplate.update(sql);
+        if(result>0){
+            return billInfo;
+        }else{
+            return null;
+        }
+
+    }
+
+    /**
      * 添加海报
      * @param billInfo
      * @return
      */
     @Override
-    public BillInfo addBill(BillInfo billInfo) {
+    public BillInfo addBillJpa(BillInfo billInfo) {
         //调用Repository中已有的添加方法
         billInfo.setBillUserName("admin");
         billInfo.setBillTime(ZonedDateTime.now());
@@ -374,6 +397,24 @@ public class BillInfoServiceImpl implements BillInfoService {
         BillInfo result = billInfoRepository.save(billInfo);
 
         return result;
+    }
+
+    /**
+     * 根据 海报ID 删除海报
+     * 通过 JdbcTemplate
+     * @param billId
+     * @return
+     */
+    @Override
+    public boolean deleteBillJdbc(Long billId) {
+        String sql="delete from bill_info where id = " + billId;
+        int result=jdbcTemplate.update(sql);
+        if(result>0){
+            return true;
+        }else{
+            return false;
+        }
+
     }
 
 

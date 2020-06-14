@@ -1,12 +1,14 @@
 package com.niit.poster.web.rest;
 
 import com.niit.poster.domain.BillInfo;
+import com.niit.poster.security.SecurityUtils;
 import com.niit.poster.service.BillInfoService;
 import com.niit.poster.web.rest.errors.BadRequestAlertException;
 
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -250,20 +252,65 @@ public class BillInfoResource {
     }
 
     /**
+     * 海报新增
+     * 通过 JdbcTemplate
+     * @param billInfo
+     * @return
+     */
+    @ApiOperation(value = "jdbc 创建新的海报")
+    @PostMapping("/bill-infos/creat/jdbc")
+    public ResponseEntity creatBillJdbc(@RequestBody BillInfo billInfo){
+        try{
+            String login = SecurityUtils.getCurrentUserLogin().get();
+            billInfo.setBillUserName(login);
+            billInfo = billInfoService.creatBillJdbc(billInfo);
+            if (billInfo != null){
+                return ResponseEntity.ok(billInfo);
+            }else {
+                return ResponseEntity.badRequest().body("保存失败");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new BadRequestAlertException(e.getMessage(),"creatBillJdbc",e.getLocalizedMessage());
+        }
+    }
+
+    /**
      * 添加海报
      * @param billInfo
      * @return
      */
-    @PostMapping("/bill-infos/add")
-    public ResponseEntity addBill(@RequestBody BillInfo billInfo){
+    @PostMapping("/bill-infos/add/jpa")
+    public ResponseEntity addBillJpa(@RequestBody BillInfo billInfo){
         try{
-            BillInfo result = billInfoService.addBill(billInfo);
+            BillInfo result = billInfoService.addBillJpa(billInfo);
             return ResponseEntity.ok(result);
         }catch (Exception e){
             e.printStackTrace();
-            throw new BadRequestAlertException(e.getMessage(),"addBill",e.getLocalizedMessage());
+            throw new BadRequestAlertException(e.getMessage(),"addBillJpa",e.getLocalizedMessage());
         }
 
+    }
+
+    /**
+     * 根据 海报ID 删除海报
+     * 通过 JdbcTemplate
+     * @param billId
+     * @return
+     */
+    @DeleteMapping("/bill-infos/delete/jdbc/{billId}")
+    public ResponseEntity deleteBillJdbc(@PathVariable Long billId){
+        try{
+            boolean result=billInfoService.deleteBillJdbc(billId);
+            if(result){
+                return ResponseEntity.ok("删除成功");
+            }else{
+                return ResponseEntity.noContent().build();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new BadRequestAlertException(e.getMessage(),"deleteBillJdbc",e.getLocalizedMessage());
+        }
     }
 
 

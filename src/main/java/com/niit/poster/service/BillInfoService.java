@@ -118,10 +118,27 @@ public interface BillInfoService {
     Page<BillInfo> getAllBillInfoJpaQuery(String keywords,Long billTypeId,Integer pageIndex, Integer pageSize);
 
     /**
+     * 海报新增
+     * 通过 JdbcTemplate
+     * @param billInfo
+     * @return
+     */
+    BillInfo creatBillJdbc(BillInfo billInfo);
+
+    /**
      * 添加海报
      * @param billInfo
      * @return
      */
-    BillInfo addBill(BillInfo billInfo);
+    BillInfo addBillJpa(BillInfo billInfo);
+
+    /**
+     * 根据 海报ID 删除海报
+     * 通过 JdbcTemplate
+     * 不完整（未进行ID等校验）
+     * @param billId
+     * @return
+     */
+    boolean deleteBillJdbc(Long billId);
 
 }
