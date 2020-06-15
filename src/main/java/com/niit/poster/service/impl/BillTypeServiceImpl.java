@@ -89,9 +89,10 @@ public class BillTypeServiceImpl implements BillTypeService {
         billTypeRepository.deleteById(id);
     }
 
+
+//    查
     /**
-     * 查询全部海报分类
-     * 通过 Jdbc(SQL语句)进行查询
+     * 通过 JdbcTemplate(SQL语句) 方式实现     查询 全部海报分类
      * @return
      */
     @Override
@@ -109,27 +110,24 @@ public class BillTypeServiceImpl implements BillTypeService {
                 billType.setDataTime(ZonedDateTime.ofLocal(TypeUtils.castToTimestamp(sqlItem.get("data_time")).toLocalDateTime(), ZoneId.systemDefault(),null));
                 result.add(billType);
             }
-            //Page<BillType> pageResult = new PageImpl<>(result, PageRequest.of(0, 0),3l);
-
             return result;
         }
         return null;
     }
 
-    /**
-     * 根据 分类排序 查询 所有海报分类
-     * 通过 JPA
-     * 分页
-     * @param billTypeSort
-     * @param pageIndex
-     * @param pageSize
-     * @return
-     */
+//    /**
+//     * 功能可实现，无太大意义
+//     * 通过 JPA 方式实现     分页查询 指定分类排序(bill_type_sort) 的海报分类，若不指定分类排序则 查全部海报分类
+//     * @param billTypeSort  分类排序参数，若分类参数为 null 则默认查询全部
+//     * @param pageIndex  页码，默认为0
+//     * @param pageSize  页长，默认为5
+//     * @return
+//     */
 //    @Override
-//    public Page<BillType> getAllBillTypeJpa(Integer billTypeSort, Integer pageIndex, Integer pageSize) {
-//        if (billTypeSort==null)billTypeSort=0;
+//    public Page<BillType> getAllBillTypeJpaPaged(Integer billTypeSort, Integer pageIndex, Integer pageSize) {
+//        /*if (billTypeSort==null)billTypeSort=0;
 //        if (pageIndex==null)pageIndex=0;
-//        if (pageSize==null)pageSize=5;
+//        if (pageSize==null)pageSize=5;*/
 //
 //        Page<BillType> result = null;
 //        if (billTypeSort>0){
@@ -141,9 +139,7 @@ public class BillTypeServiceImpl implements BillTypeService {
 //    }
 
     /**
-     * 根据 海报分类排序 倒叙 查询所有
-     * 通过 JPA
-     * 不分页
+     * 通过 JPA 方式实现     查询 分类排序为倒叙 的全部海报分类
      * @return
      */
     @Override
@@ -151,4 +147,5 @@ public class BillTypeServiceImpl implements BillTypeService {
         List<BillType> result = billTypeRepository.findAllByOrderByBillTypeSortDesc();
         return result;
     }
+
 }

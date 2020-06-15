@@ -16,21 +16,19 @@ import java.util.List;
 @Repository
 public interface BillTypeRepository extends JpaRepository<BillType, Long> {
 
-    /**
-     * 根据 分类排序 查询 所有海报分类
-     * 通过 JPA
-     * 分页
-     * @param billTypeSort
-     * @param page
-     * @return
-     */
-//    功能可实现，没有太大意义
+
+//    查
+//    /**
+//     * 功能可实现，无太大意义
+//     * 通过 JPA 方式实现     分页查询 指定分类排序(bill_type_sort) 的海报分类，若不指定分类排序则 查全部海报分类
+//     * @param billTypeSort  分类排序参数，若分类参数为 null 则默认查询全部
+//     * @param page  分页参数
+//     * @return
+//     */
 //    Page<BillType> findAllByBillTypeSort(Integer billTypeSort, Pageable page);
 
     /**
-     * 根据 海报分类排序 倒叙 查询所有
-     * 通过 JPA
-     * 不分页
+     * 通过 JPA 方式实现     查询 分类排序为倒叙 的全部海报分类
      * @return
      */
     List<BillType> findAllByOrderByBillTypeSortDesc();

@@ -7,6 +7,9 @@ import com.niit.poster.web.rest.errors.BadRequestAlertException;
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -123,11 +126,13 @@ public class BillTypeResource {
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
     }
 
+
+//    查
     /**
-     * 查询全部海报分类
-     * 通过 Jdbc(SQL语句)进行查询
+     * 通过 JdbcTemplate(SQL语句) 方式实现     查询 全部海报分类
      * @return
      */
+    @ApiOperation(value = "使用 Jdbc 查询所有海报分类")
     @GetMapping("/bill-type/all/jdbc")
     public ResponseEntity getAllBillTypeJdbc(){
         try {
@@ -139,32 +144,39 @@ public class BillTypeResource {
         }
     }
 
-    /**
-     * 根据 分类排序 查询 所有海报分类
-     * 通过 JPA
-     * 分页
-     * @param billTypeSort
-     * @param pageIndex
-     * @param pageSize
-     * @return
-     */
-//    @GetMapping("/bill-type/all/jpa")
-//    public ResponseEntity getAllBillTypeJpa(Integer billTypeSort,Integer pageIndex, Integer pageSize){
+//    /**
+//     * 功能可实现，无太大意义
+//     * 通过 JPA 方式实现     分页查询 指定分类排序(bill_type_sort) 的海报分类，若不指定分类排序则 查全部海报分类
+//     * @param billTypeSort  分类排序参数，若分类参数为 null 则默认查询全部
+//     * @param pageIndex  页码，默认为0
+//     * @param pageSize  页长，默认为5
+//     * @return
+//     */
+//    @ApiOperation(value = "使用 JPA 分页查询指定分类排序的海报分类")
+//    @GetMapping("/bill-type/all/jpa-page")
+//    @ApiImplicitParams({
+//        @ApiImplicitParam(name="billTypeSort",value = "分类排序，0为全部"),
+//        @ApiImplicitParam(name="pageIndex",value = "分页页码，起始为0"),
+//        @ApiImplicitParam(name="pageSize",value = "分页页长，默认为5")
+//    })
+//    public ResponseEntity getAllBillTypeJpaPaged(
+//        @RequestParam(required = false,defaultValue = "0") Integer billTypeSort,
+//        @RequestParam(required = false,defaultValue = "0") Integer pageIndex,
+//        @RequestParam(required = false,defaultValue ="5")Integer pageSize){
 //        try {
-//            Page<BillType> result = billTypeService.getAllBillTypeJpa(billTypeSort,pageIndex,pageSize);
+//            Page<BillType> result = billTypeService.getAllBillTypeJpaPaged(billTypeSort,pageIndex,pageSize);
 //            return ResponseEntity.ok(result);
 //        }catch (Exception e){
 //            e.printStackTrace();
-//            throw new BadRequestAlertException(e.getMessage(),"getAllBillTypeJpa",e.getLocalizedMessage());
+//            throw new BadRequestAlertException(e.getMessage(),"getAllBillTypeJpaPaged",e.getLocalizedMessage());
 //        }
 //    }
 
     /**
-     * 根据 海报分类排序 倒叙 查询所有
-     * 通过 JPA
-     * 不分页
+     * 通过 JPA 方式实现     查询 分类排序为倒叙 的全部海报分类
      * @return
      */
+    @ApiOperation(value = "使用 JPA 查询所有海报分类")
     @GetMapping("/bill-type/all/jpa")
     public ResponseEntity getAllBillTypeJpa(){
         try {
@@ -175,4 +187,5 @@ public class BillTypeResource {
             throw new BadRequestAlertException(e.getMessage(),"getAllBillTypeJpa",e.getLocalizedMessage());
         }
     }
+
 }

@@ -90,11 +90,12 @@ public class BillInfoServiceImpl implements BillInfoService {
         billInfoRepository.deleteById(id);
     }
 
-    /**
-     * 查询海报
-     * 通过 Jdbc(SQL语句)进行查询
-     * @return
-     */
+
+//    查
+//    /**
+//     * 通过 JdbcTemplate(SQL语句) 方式实现     查询海报信息
+//     * @return
+//     */
 //    @Override
 //    public List<BillInfo> getAllBillInfoJdbcOld() {
 //        String sql = "SELECT " +
@@ -140,15 +141,14 @@ public class BillInfoServiceImpl implements BillInfoService {
 //        return null;
 //    }
 
-    /**
-     * 根据 海报类型ID 和 海报文字 模糊查询 海报
-     * 通过 Jdbc(SQL语句)进行查询
-     * @param keywords
-     * @param billTypeId
-     * @return
-     */
+//    /**
+//     * 通过 JdbcTemplate(SQL语句) 方式实现     根据 海报文字(bill_word) 和 海报类型ID(bill_type_id) 模糊查询 全部海报信息
+//     * @param keywords
+//     * @param billTypeId
+//     * @return
+//     */
 //    @Override
-//    public List<BillInfo> getAllBillInfoJdbc(String keywords, Integer billTypeId) {
+//    public List<BillInfo> getAllBillInfoJdbcOld2(String keywords, Integer billTypeId) {
 //        if (keywords==null)keywords="";
 //        if (billTypeId==null)billTypeId=0;
 //        String sql = "SELECT " +
@@ -195,11 +195,10 @@ public class BillInfoServiceImpl implements BillInfoService {
 //    }
 
     /**
-     * 根据 海报类型ID 和 海报文字 模糊查询 海报
-     * 通过 Jdbc(SQL语句)进行查询
-     * 对以上方法进行改造， 添加分页参数
-     * @param keywords
-     * @param billTypeId
+     * 通过 JdbcTemplate(SQL语句) 方式实现     根据 海报文字(bill_word) 和 海报类型ID(bill_type_id) 模糊查询 全部海报信息
+     * @param keywords  海报文字，默认为""
+     * @param billTypeId  海报类型ID，全部为0
+     * @param userName  登录用户
      * @param pageIndex
      * @param pageSize
      * @return
@@ -210,6 +209,7 @@ public class BillInfoServiceImpl implements BillInfoService {
         if (billTypeId==null)billTypeId=0;
         if (pageIndex==null)pageIndex=0;
         if (pageSize==null)pageSize=5;
+
         String sql = "SELECT " +
             "  a.*, " +
             "  b.bill_type_name, " +
@@ -258,11 +258,12 @@ public class BillInfoServiceImpl implements BillInfoService {
     }
 
     /**
-     * 根据 海报类型ID 和 海报文字 模糊查询 海报
-     * 通过 Jdbc(SQL语句)进行查询
-     * 分页
-     * @param keywords
-     * @param billTypeId
+     * 通过 JdbcTemplate(SQL语句) 方式实现     分页查询 根据 海报文字(bill_word) 和 海报类型ID(bill_type_id) 模糊查询 全部海报信息
+     * @param keywords  海报文字，默认为""
+     * @param billTypeId  海报类型ID，全部为0
+     * @param userName  登录用户
+     * @param pageIndex  页码，默认为0
+     * @param pageSize  页长，默认为5
      * @return
      */
     @Override
@@ -271,6 +272,7 @@ public class BillInfoServiceImpl implements BillInfoService {
         if (billTypeId==null)billTypeId=0;
         if (pageIndex==null)pageIndex=0;
         if (pageSize==null)pageSize=5;
+
         //分页返回
         //1、分页的列表   List<BillInfo>
         List<BillInfo> billInfoList = this.getAllBillInfoJdbc(keywords, billTypeId, userName, pageIndex, pageSize);
@@ -298,64 +300,58 @@ public class BillInfoServiceImpl implements BillInfoService {
     }
 
     /**
-     * 根据关键字(海报文字)查询
-     * 通过 JPA
-     * 分页
-     * @param keywords
-     * @param pageIndex
-     * @param pageSize
-     * @return
-     */
-//    @Override
-//    public Page<BillInfo> getAllBillInfoJpa(String keywords,Integer pageIndex, Integer pageSize) {
-//        if (keywords==null)keywords="";
-//        if (pageIndex==null)pageIndex=0;
-//        if (pageSize==null)pageSize=5;
-//
-//        keywords="%" + keywords.replace("'","''") + "%";
-//        Page<BillInfo> result = billInfoRepository.findByBillWordLike(keywords,PageRequest.of(pageIndex,pageSize));
-//        return result;
-//    }
-
-    /**
-     * 根据 海报类型ID 和 海报文字 模糊查询 海报
-     * 通过 JPA
-     * 分页
-     * @param keywords
-     * @param pageIndex
-     * @param pageSize
+     * 通过 JPA 方法名定义方式实现     分页查询 根据 海报文字(bill_word) 模糊查询 全部海报信息
+     * @param keywords  海报文字，默认为""
+     * @param pageIndex  页码，默认为0
+     * @param pageSize  页长，默认为5
      * @return
      */
     @Override
-    public Page<BillInfo> getAllBillInfoJpa(String keywords,Long billTypeId, Integer pageIndex, Integer pageSize) {
-        if (keywords==null)keywords="";
+    public Page<BillInfo> getAllBillByBillWordLikeJpa(String keywords,Integer pageIndex, Integer pageSize) {
+        /*if (keywords==null)keywords="";
+        if (pageIndex==null)pageIndex=0;
+        if (pageSize==null)pageSize=5;*/
+        keywords="%" + keywords.replace("'","''") + "%";
+
+        Page<BillInfo> result = billInfoRepository.findByBillWordLike(keywords,PageRequest.of(pageIndex,pageSize));
+        return result;
+    }
+
+    /**
+     * 通过 JPA 方法名定义方式实现     分页查询 根据 海报文字(bill_word) 和 海报类型ID(bill_type_id) 模糊查询 全部海报信息
+     * @param keywords  海报文字，默认为""
+     * @param billTypeId  海报类型ID，全部为0
+     * @param pageIndex  页码，默认为0
+     * @param pageSize  页长，默认为5
+     * @return
+     */
+    @Override
+    public Page<BillInfo> getAllBillJpa(String keywords,Long billTypeId, Integer pageIndex, Integer pageSize) {
+        /*if (keywords==null)keywords="";
         if (billTypeId==null)billTypeId=0l;
         if (pageIndex==null)pageIndex=0;
-        if (pageSize==null)pageSize=5;
-
+        if (pageSize==null)pageSize=5;*/
         keywords="%" + keywords.replace("'","''") + "%";
+
         Page<BillInfo> result = null;
         if (billTypeId>0){
             result = billInfoRepository.findByBillWordLikeAndBillTypeId(keywords,billTypeId,PageRequest.of(pageIndex,pageSize));
         }else {
             result = billInfoRepository.findByBillWordLike(keywords,PageRequest.of(pageIndex,pageSize));
         }
-
         return result;
     }
 
     /**
-     * 根据 海报类型ID 和 海报文字 模糊查询 海报
-     * 通过 JPA + @Query注解
-     * 分页
-     * @param keywords
-     * @param billTypeId
-     * @param pageIndex
-     * @param pageSize
+     * 通过 JPA @Query注解 方式实现     分页查询 根据 海报文字(bill_word) 和 海报类型ID(bill_type_id) 模糊查询 全部海报信息
+     * @param keywords  海报文字，默认为""
+     * @param billTypeId  海报类型ID，全部为0
+     * @param pageIndex  页码，默认为0
+     * @param pageSize  页长，默认为5
      * @return
      */
     @Override
-    public Page<BillInfo> getAllBillInfoJpaQuery(String keywords, Long billTypeId, Integer pageIndex, Integer pageSize) {
+    public Page<BillInfo> getAllBillJpaQuery(String keywords, Long billTypeId, Integer pageIndex, Integer pageSize) {
        /* if (keywords==null)keywords="";
         if (billTypeId==null)billTypeId=0l;
         if (pageIndex==null)pageIndex=0;
@@ -366,9 +362,10 @@ public class BillInfoServiceImpl implements BillInfoService {
         return result;
     }
 
+
+//    增
     /**
-     * 海报新增
-     * 通过 JdbcTemplate
+     * 通过 JdbcTemplate(SQL语句) 方式实现     新增海报
      * @param billInfo
      * @return
      */
@@ -390,7 +387,7 @@ public class BillInfoServiceImpl implements BillInfoService {
     }
 
     /**
-     * 添加海报
+     * 通过 JPA 方式实现     新增海报(调用已有的Repository)
      * @param billInfo
      * @return
      */
@@ -399,15 +396,15 @@ public class BillInfoServiceImpl implements BillInfoService {
         //调用Repository中已有的添加方法
         billInfo.setBillUserName("admin");
         billInfo.setBillTime(ZonedDateTime.now());
-
         BillInfo result = billInfoRepository.save(billInfo);
-
         return result;
     }
 
+
+//    删
     /**
-     * 根据 海报ID 删除海报
-     * 通过 JdbcTemplate
+     * 不完整，未进行信息校验
+     * 通过 JdbcTemplate(SQL语句) 方式实现     根据海报ID 删除海报信息（不完整，未进行校验）
      * @param billId
      * @return
      */
@@ -420,7 +417,6 @@ public class BillInfoServiceImpl implements BillInfoService {
         }else{
             return false;
         }
-
     }
 
 

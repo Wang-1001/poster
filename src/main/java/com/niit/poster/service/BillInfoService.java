@@ -45,28 +45,27 @@ public interface BillInfoService {
      */
     void delete(Long id);
 
-    /**
-     *  查询海报
-     *  通过 Jdbc(SQL语句)进行查询
-     * @return
-     */
+
+//    查
+//    /**
+//     * 通过 JdbcTemplate(SQL语句) 方式实现     查询海报信息
+//     * @return
+//     */
 //    List<BillInfo> getAllBillInfoJdbcOld();
 
-    /**
-     * 根据 海报类型ID 和 海报文字 模糊查询 海报
-     * 通过 Jdbc(SQL语句)进行查询
-     * @param keywords
-     * @param billTypeId
-     * @return
-     */
-//    List<BillInfo> getAllBillInfoJdbc(String keywords, Integer billTypeId);
+//    /**
+//     * 通过 JdbcTemplate(SQL语句) 方式实现     根据 海报文字(bill_word) 和 海报类型ID(bill_type_id) 模糊查询 全部海报信息
+//     * @param keywords
+//     * @param billTypeId
+//     * @return
+//     */
+//    List<BillInfo> getAllBillInfoJdbcOld2(String keywords, Integer billTypeId);
 
     /**
-     * 根据 海报类型ID 和 海报文字 模糊查询 海报
-     * 通过 Jdbc(SQL语句)进行查询
-     * 对以上方法进行改造， 添加分页参数
-     * @param keywords
-     * @param billTypeId
+     * 通过 JdbcTemplate(SQL语句) 方式实现     根据 海报文字(bill_word) 和 海报类型ID(bill_type_id) 模糊查询 全部海报信息
+     * @param keywords  海报文字，默认为""
+     * @param billTypeId  海报类型ID，全部为0
+     * @param userName  登录用户
      * @param pageIndex
      * @param pageSize
      * @return
@@ -74,68 +73,66 @@ public interface BillInfoService {
     List<BillInfo> getAllBillInfoJdbc(String keywords, Integer billTypeId, String userName, Integer pageIndex, Integer pageSize);
 
     /**
-     * 根据 海报类型ID 和 海报文字 模糊查询 海报
-     * 通过 Jdbc(SQL语句)进行查询
-     * 分页
-     * @param keywords
-     * @param billTypeId
+     * 通过 JdbcTemplate(SQL语句) 方式实现     分页查询 根据 海报文字(bill_word) 和 海报类型ID(bill_type_id) 模糊查询 全部海报信息
+     * @param keywords  海报文字，默认为""
+     * @param billTypeId  海报类型ID，全部为0
+     * @param userName  登录用户
+     * @param pageIndex  页码，默认为0
+     * @param pageSize  页长，默认为5
      * @return
      */
     Page<BillInfo> getAllBillInfoJdbcPaged(String keywords, Integer billTypeId, String userName, Integer pageIndex, Integer pageSize);
 
     /**
-     * 根据关键字(海报文字)查询
-     * 通过 JPA
-     * 分页
-     * @param keywords
-     * @param pageIndex
-     * @param pageSize
+     * 通过 JPA 方法名定义方式实现     分页查询 根据 海报文字(bill_word) 模糊查询 全部海报信息
+     * @param keywords  海报文字，默认为""
+     * @param pageIndex  页码，默认为0
+     * @param pageSize  页长，默认为5
      * @return
      */
-//    Page<BillInfo> getAllBillInfoJpa(String keywords,Integer pageIndex, Integer pageSize);
+    Page<BillInfo> getAllBillByBillWordLikeJpa(String keywords,Integer pageIndex, Integer pageSize);
 
     /**
-     * 根据 海报类型ID 和 海报文字 模糊查询 海报
-     * 通过 JPA
-     * 分页
-     * @param keywords
-     * @param pageIndex
-     * @param pageSize
+     * 通过 JPA 方法名定义方式实现     分页查询 根据 海报文字(bill_word) 和 海报类型ID(bill_type_id) 模糊查询 全部海报信息
+     * @param keywords  海报文字，默认为""
+     * @param billTypeId  海报类型ID，全部为0
+     * @param pageIndex  页码，默认为0
+     * @param pageSize  页长，默认为5
      * @return
      */
-    Page<BillInfo> getAllBillInfoJpa(String keywords,Long billTypeId,Integer pageIndex, Integer pageSize);
+    Page<BillInfo> getAllBillJpa(String keywords,Long billTypeId,Integer pageIndex, Integer pageSize);
 
     /**
-     * 根据 海报类型ID 和 海报文字 模糊查询 海报
-     * 通过 JPA + @Query注解
-     * 分页
-     * @param keywords
-     * @param billTypeId
-     * @param pageIndex
-     * @param pageSize
+     * 通过 JPA @Query注解 方式实现     分页查询 根据 海报文字(bill_word) 和 海报类型ID(bill_type_id) 模糊查询 全部海报信息
+     * @param keywords  海报文字，默认为""
+     * @param billTypeId  海报类型ID，全部为0
+     * @param pageIndex  页码，默认为0
+     * @param pageSize  页长，默认为5
      * @return
      */
-    Page<BillInfo> getAllBillInfoJpaQuery(String keywords,Long billTypeId,Integer pageIndex, Integer pageSize);
+    Page<BillInfo> getAllBillJpaQuery(String keywords,Long billTypeId,Integer pageIndex, Integer pageSize);
 
+
+//    增
     /**
-     * 海报新增
-     * 通过 JdbcTemplate
+     * 通过 JdbcTemplate(SQL语句) 方式实现     新增海报
      * @param billInfo
      * @return
      */
     BillInfo creatBillJdbc(BillInfo billInfo);
 
     /**
-     * 添加海报
+     * 通过 JPA 方式实现     新增海报(调用已有的Repository)
      * @param billInfo
      * @return
      */
     BillInfo addBillJpa(BillInfo billInfo);
 
+
+//    删
     /**
-     * 根据 海报ID 删除海报
-     * 通过 JdbcTemplate
-     * 不完整（未进行ID等校验）
+     * 不完整，未进行信息校验
+     * 通过 JdbcTemplate(SQL语句) 方式实现     根据海报ID 删除海报信息（不完整，未进行校验）
      * @param billId
      * @return
      */

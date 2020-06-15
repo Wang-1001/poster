@@ -8,6 +8,8 @@ import com.niit.poster.web.rest.errors.BadRequestAlertException;
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -125,11 +127,13 @@ public class BillInfoResource {
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
     }
 
-    /**
-     * 查询海报
-     * 通过 Jdbc(SQL语句)进行查询
-     * @return
-     */
+
+//    查
+//    /**
+//     * 通过 JdbcTemplate(SQL语句) 方式实现     查询海报信息
+//     * @return
+//     */
+//    @ApiOperation(value = "使用 Jdbc 查询所有海报信息(没有关键字，直接查询)")
 //    @GetMapping("/bill-info/all/jdbc-old")
 //    public ResponseEntity getAllBillInfoJdbcOld(){
 //        try{
@@ -142,146 +146,182 @@ public class BillInfoResource {
 //
 //    }
 
-    /**
-     * 根据 海报类型ID 和 海报文字 模糊查询 海报
-     * 通过 Jdbc(SQL语句)进行查询
-     * @param keywords
-     * @param billTypeId
-     * @return
-     */
-//    @GetMapping("/bill-info/all/jdbc")
-//    public ResponseEntity getAllBillInfoJdbc(String keywords, Integer billTypeId ){
+//    /**
+//     * 通过 JdbcTemplate(SQL语句) 方式实现     根据 海报文字(bill_word) 和 海报类型ID(bill_type_id) 模糊查询 全部海报信息
+//     * @param keywords
+//     * @param billTypeId
+//     * @return
+//     */
+//    @ApiOperation(value = "使用 Jdbc 查询所有海报信息(不分页)")
+//    @GetMapping("/bill-info/all/jdbc-old2")
+//    public ResponseEntity getAllBillInfoJdbcOld2(String keywords, Integer billTypeId ){
 //        try{
-//            List<BillInfo> result = billInfoService.getAllBillInfoJdbc(keywords,billTypeId);
+//            List<BillInfo> result = billInfoService.getAllBillInfoJdbcOld2(keywords,billTypeId);
 //            return ResponseEntity.ok(result);
 //        }catch (Exception e){
 //            e.printStackTrace();
-//            throw new BadRequestAlertException(e.getMessage(),"getAllBillInfoJdbc",e.getLocalizedMessage());
+//            throw new BadRequestAlertException(e.getMessage(),"getAllBillInfoJdbcOld2",e.getLocalizedMessage());
 //        }
 //
 //    }
 
     /**
-     * 根据 海报类型ID 和 海报文字 模糊查询 海报
-     * 通过 Jdbc(SQL语句)进行查询
-     * 分页
-     * @param keywords
-     * @param billTypeId
+     * 通过 JdbcTemplate(SQL语句) 方式实现     分页查询 根据 海报文字(bill_word) 和 海报类型ID(bill_type_id) 模糊查询 所有海报信息
+     * @param keywords  海报文字，默认为""
+     * @param billTypeId  海报类型ID，全部为0
+     * @param pageIndex  页码，默认为0
+     * @param pageSize  页长，默认为5
      * @return
      */
-    @GetMapping("/bill-info/all/jdbc")
-    public ResponseEntity getAllBillInfoJdbc(String keywords, Integer billTypeId, Integer pageIndex, Integer pageSize){
+    @ApiOperation(value = "使用 Jdbc 查询所有海报信息")
+    @GetMapping("/bill-info/all/jdbc-page")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name="keywords",value = "海报文字"),
+        @ApiImplicitParam(name="billTypeId",value = "海报类型ID，全部为0"),
+        @ApiImplicitParam(name="pageIndex",value = "分页页码，起始为0"),
+        @ApiImplicitParam(name="pageSize",value = "分页页长，默认为5")
+    })
+    public ResponseEntity getAllBillJdbc(String keywords, Integer billTypeId, Integer pageIndex, Integer pageSize){
         try{
             Page<BillInfo> result = billInfoService.getAllBillInfoJdbcPaged(keywords,billTypeId,null,pageIndex,pageSize);
             return ResponseEntity.ok(result);
         }catch (Exception e){
             e.printStackTrace();
-            throw new BadRequestAlertException(e.getMessage(),"getAllBillInfoJdbc",e.getLocalizedMessage());
+            throw new BadRequestAlertException(e.getMessage(),"getAllBillJdbc",e.getLocalizedMessage());
         }
 
     }
 
-
     /**
-     * 根据 海报类型ID、用户名、海报文字 查询 登录人的海报
-     * 通过 Jdbc(SQL语句)进行查询
-     * 分页
-     * @param keywords
-     * @param billTypeId
-     * @param pageIndex
-     * @param pageSize
+     * 通过 JdbcTemplate(SQL语句) 方式实现     登录用户 分页查询 根据 海报文字(bill_word) 和 海报类型ID(bill_type_id) 模糊查询 自己的海报信息
+     * @param keywords  海报文字，默认为""
+     * @param billTypeId  海报类型ID，全部为0
+     * @param pageIndex  页码，默认为0
+     * @param pageSize  页长，默认为5
      * @return
      */
-    @GetMapping("/bill-info/mine/jdbc")
-    public ResponseEntity getMyBillInfoJdbc(String keywords, Integer billTypeId, Integer pageIndex, Integer pageSize){
+    @ApiOperation(value = "使用 Jdbc 根据登录用户查询自己的的海报信息")
+    @GetMapping("/bill-info/mine/jdbc-page")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name="keywords",value = "海报文字"),
+        @ApiImplicitParam(name="billTypeId",value = "海报类型ID，全部为0"),
+        @ApiImplicitParam(name="pageIndex",value = "分页页码，起始为0"),
+        @ApiImplicitParam(name="pageSize",value = "分页页长，默认为5")
+    })
+    public ResponseEntity getMyBillJdbc(
+        String keywords,
+        Integer billTypeId,
+        Integer pageIndex,
+        Integer pageSize){
         try{
             String loginname = SecurityUtils.getCurrentUserLogin().get();
             Page<BillInfo> result = billInfoService.getAllBillInfoJdbcPaged(keywords,billTypeId,loginname,pageIndex,pageSize);
             return ResponseEntity.ok(result);
         }catch (Exception e){
             e.printStackTrace();
-            throw new BadRequestAlertException(e.getMessage(),"getAllBillInfoJdbc",e.getLocalizedMessage());
+            throw new BadRequestAlertException(e.getMessage(),"getMyBillJdbc",e.getLocalizedMessage());
         }
 
     }
 
     /**
-     * 根据关键字(海报文字)查询
-     * 通过 JPA
-     * 分页
-     * @param keywords
-     * @param billTypeId
-     * @param pageIndex
-     * @param pageSize
+     * 通过 JPA 方法名定义方式实现     分页查询 根据 海报文字(bill_word) 模糊查询 全部海报信息
+     * @param keywords  海报文字，默认为""
+     * @param pageIndex  页码，默认为0
+     * @param pageSize  页长，默认为5
      * @return
      */
-//    @GetMapping("/bill-info/all/jpa")
-//    public ResponseEntity getAllBillInfoJpa(String keywords,Long billTypeId,Integer pageIndex, Integer pageSize){
-//        try{
-//            Page<BillInfo> result = billInfoService.getAllBillInfoJpa(keywords,pageIndex,pageSize);
-//            return ResponseEntity.ok(result);
-//        }catch (Exception e){
-//            e.printStackTrace();
-//            throw new BadRequestAlertException(e.getMessage(),"getAllBillInfoJpa",e.getLocalizedMessage());
-//        }
-//
-//    }
-
-    /**
-     * 根据 海报类型ID 和 海报文字 模糊查询 海报
-     * 通过 JPA
-     * 分页
-     * @param keywords
-     * @param billTypeId
-     * @param pageIndex
-     * @param pageSize
-     * @return
-     */
-    @GetMapping("/bill-info/all/jpa")
-    public ResponseEntity getAllBillInfoJpa(String keywords, Long billTypeId,Integer pageIndex, Integer pageSize){
+    @ApiOperation(value = "使用 JPA 方法名定义 查询(海报文字)所有海报信息")
+    @GetMapping("/bill-info/all/billWord/jpa-page")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name="keywords",value = "海报文字"),
+        @ApiImplicitParam(name="pageIndex",value = "分页页码，起始为0"),
+        @ApiImplicitParam(name="pageSize",value = "分页页长，默认为5")
+    })
+    public ResponseEntity getAllBillByBillWordLikeJpa(
+        @RequestParam(required = false,defaultValue = "") String keywords,
+        @RequestParam(required = false,defaultValue = "0") Integer pageIndex,
+        @RequestParam(required = false,defaultValue = "5") Integer pageSize){
         try{
-            Page<BillInfo> result = billInfoService.getAllBillInfoJpa(keywords,billTypeId,pageIndex,pageSize);
+            Page<BillInfo> result = billInfoService.getAllBillByBillWordLikeJpa(keywords,pageIndex,pageSize);
             return ResponseEntity.ok(result);
         }catch (Exception e){
             e.printStackTrace();
-            throw new BadRequestAlertException(e.getMessage(),"getAllBillInfoJpa",e.getLocalizedMessage());
+            throw new BadRequestAlertException(e.getMessage(),"getAllBillByBillWordLikeJpa",e.getLocalizedMessage());
         }
 
     }
 
     /**
-     * 根据 海报类型ID 和 海报文字 模糊查询 海报
-     * 通过 JPA + @Query注解
-     * 分页
-     * @param keywords
-     * @param billTypeId
-     * @param pageIndex
-     * @param pageSize
+     * 通过 JPA 方法名定义方式实现     分页查询 根据 海报文字(bill_word) 和 海报类型ID(bill_type_id) 模糊查询 全部海报信息
+     * @param keywords  海报文字，默认为""
+     * @param billTypeId  海报类型ID，全部为0
+     * @param pageIndex  页码，默认为0
+     * @param pageSize  页长，默认为5
      * @return
      */
-    @GetMapping("/bill-info/all/jpa-query/{billTypeId}")
-    public ResponseEntity getAllBillInfoJpaQuery(
+    @ApiOperation(value = "使用 JPA 方法名定义 查询所有海报信息")
+    @GetMapping("/bill-info/all/jpa-page")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name="keywords",value = "海报文字"),
+        @ApiImplicitParam(name = "billTypeId",value = "海报类型ID，全部为0"),
+        @ApiImplicitParam(name="pageIndex",value = "分页页码，起始为0"),
+        @ApiImplicitParam(name="pageSize",value = "分页页长，默认为5")
+    })
+    public ResponseEntity getAllBillJpa(
+        @RequestParam(required = false,defaultValue = "") String keywords,
+        Long billTypeId,
+        @RequestParam(required = false,defaultValue = "0") Integer pageIndex,
+        @RequestParam(required = false,defaultValue = "5") Integer pageSize){
+        try{
+            Page<BillInfo> result = billInfoService.getAllBillJpa(keywords,billTypeId,pageIndex,pageSize);
+            return ResponseEntity.ok(result);
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new BadRequestAlertException(e.getMessage(),"getAllBillJpa",e.getLocalizedMessage());
+        }
+
+    }
+
+    /**
+     * 通过 JPA @Query注解 方式实现     分页查询 根据 海报文字(bill_word) 和 海报类型ID(bill_type_id) 模糊查询 全部海报信息
+     * @param keywords  海报文字，默认为""
+     * @param billTypeId  海报类型ID，全部为0
+     * @param pageIndex  页码，默认为0
+     * @param pageSize  页长，默认为5
+     * @return
+     */
+    @ApiOperation(value = "使用 JPA @Query 查询所有海报信息")
+    @GetMapping("/bill-info/all/jpa-query-page/{billTypeId}")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name="keywords",value = "海报文字"),
+        @ApiImplicitParam(name = "billTypeId",value = "海报类型ID，全部为0"),
+        @ApiImplicitParam(name="pageIndex",value = "分页页码，起始为0"),
+        @ApiImplicitParam(name="pageSize",value = "分页页长，默认为5")
+    })
+    public ResponseEntity getAllBillJpaQuery(
         @RequestParam(required = false,defaultValue = "") String keywords,
         @PathVariable Long billTypeId,
         @RequestParam(required = false,defaultValue = "0") Integer pageIndex,
         @RequestParam(required = false,defaultValue = "5") Integer pageSize){
         try{
-            Page<BillInfo> result = billInfoService.getAllBillInfoJpaQuery(keywords,billTypeId,pageIndex,pageSize);
+            Page<BillInfo> result = billInfoService.getAllBillJpaQuery(keywords,billTypeId,pageIndex,pageSize);
             return ResponseEntity.ok(result);
         }catch (Exception e){
             e.printStackTrace();
-            throw new BadRequestAlertException(e.getMessage(),"getAllBillInfoJpaQuery",e.getLocalizedMessage());
+            throw new BadRequestAlertException(e.getMessage(),"getAllBillJpaQuery",e.getLocalizedMessage());
         }
 
     }
 
+
+//    增
     /**
-     * 海报新增
-     * 通过 JdbcTemplate
+     * 通过 JdbcTemplate(SQL语句) 方式实现     新增海报
      * @param billInfo
      * @return
      */
-    @ApiOperation(value = "jdbc 创建新的海报")
+    @ApiOperation(value = "使用 Jdbc 创建新海报")
     @PostMapping("/bill-infos/creat/jdbc")
     public ResponseEntity creatBillJdbc(@RequestBody BillInfo billInfo){
         try{
@@ -300,10 +340,11 @@ public class BillInfoResource {
     }
 
     /**
-     * 添加海报
+     * 通过 JPA 方式实现     新增海报(调用已有的Repository)
      * @param billInfo
      * @return
      */
+    @ApiOperation(value = "使用 JPA 创建新海报")
     @PostMapping("/bill-infos/add/jpa")
     public ResponseEntity addBillJpa(@RequestBody BillInfo billInfo){
         try{
@@ -316,12 +357,15 @@ public class BillInfoResource {
 
     }
 
+
+//    删
     /**
-     * 根据 海报ID 删除海报
-     * 通过 JdbcTemplate
+     * 不完整，未进行信息校验
+     * 通过 JdbcTemplate(SQL语句) 方式实现     根据海报ID 删除海报信息（不完整，未进行校验）
      * @param billId
      * @return
      */
+    @ApiOperation(value = "使用 Jdbc 删除指定海报信息")
     @DeleteMapping("/bill-infos/delete/jdbc/{billId}")
     public ResponseEntity deleteBillJdbc(@PathVariable Long billId){
         try{
