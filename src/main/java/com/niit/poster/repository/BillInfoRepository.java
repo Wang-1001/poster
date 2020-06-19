@@ -56,4 +56,15 @@ public interface BillInfoRepository extends JpaRepository<BillInfo, Long> {
     @Query("select a from BillInfo a where a.billWord like ?1 and (0 = ?2 or a.billType.id = ?2)")
     Page<BillInfo> getBills(String keywords,Integer billTypeId,Pageable page);
 
+    /**
+     * 通过 JPA @Query注解 方式实现     登录用户 分页查询 根据 海报文字(bill_word) 和 海报类型ID(bill_type_id) 查询自己的海报信息
+     * @param keywords  查询关键字(海报文字)
+     * @param billTypeId  海报类型ID
+     * @param userName  登录用户
+     * @param page  分页参数
+     * @return
+     */
+    @Query("select a from BillInfo a where a.billWord like ?1 and (0 = ?2 or a.billType.id = ?2) and a.billUserName = ?3")
+    Page<BillInfo> getMyBills(String keywords,Integer billTypeId,String userName, Pageable page);
+
 }

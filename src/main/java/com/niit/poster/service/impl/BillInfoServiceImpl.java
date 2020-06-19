@@ -2,6 +2,7 @@ package com.niit.poster.service.impl;
 
 import com.alibaba.fastjson.util.TypeUtils;
 import com.niit.poster.domain.BillType;
+import com.niit.poster.security.SecurityUtils;
 import com.niit.poster.service.BillInfoService;
 import com.niit.poster.domain.BillInfo;
 import com.niit.poster.repository.BillInfoRepository;
@@ -362,6 +363,29 @@ public class BillInfoServiceImpl implements BillInfoService {
         return result;
     }
 
+    /**
+     * 通过 JPA @Query注解 方式实现     登录用户 分页查询 根据 海报文字(bill_word) 和 海报类型ID(bill_type_id) 查询自己的海报信息
+     * @param keywords  查询关键字(海报文字)
+     * @param billTypeId  海报类型ID
+     * @param pageIndex  页码
+     * @param pageSize  页长
+     * @return
+     */
+    @Override
+    public Page<BillInfo> getMyBills(String keywords,Long billTypeId, Integer pageIndex, Integer pageSize) {
+        keywords="%" + keywords.replace("'","''") + "%";
+
+        Optional<String> loginOptional =  SecurityUtils.getCurrentUserLogin();
+        if (loginOptional.isPresent()){
+            String login = loginOptional.get();
+
+            Page<BillInfo> result = billInfoRepository.getMyBills(keywords, billTypeId.intValue(), login, PageRequest.of(pageIndex,pageSize));
+            return result;
+        }else {
+            return null;
+        }
+
+    }
 
 //    增
     /**
@@ -418,6 +442,43 @@ public class BillInfoServiceImpl implements BillInfoService {
             return false;
         }
     }
+
+    /**
+     * 通过 JPA 方式实现     登录用户 根据海报ID 删除自己的海报信息
+     * @param billId
+     * @return
+     */
+    @Override
+    public boolean deleteBillJpa(Long billId) throws Exception {
+        //校验Id是的存在
+        Optional<BillInfo> billInfoOptional = billInfoRepository.findById(billId);
+        if (billInfoOptional.isPresent()){
+            BillInfo billInfo = billInfoOptional.get();
+
+            //校验海报是否是当前登录用户的
+            String billUserName = billInfo.getBillUserName();
+            Optional<String> loginOptional =  SecurityUtils.getCurrentUserLogin();
+            if (loginOptional.isPresent()){
+                String login = loginOptional.get();
+                if (login.equals(billUserName)){
+                    try{
+                        billInfoRepository.deleteById(billId);
+                        return true;
+                    }catch (Exception e){
+                        throw e;
+                    }
+
+                }else {
+                    throw new Exception("无权限删除");
+                }
+            }else {
+                throw new Exception("无权限删除");
+            }
+        }else {
+            throw new Exception("未找到海报编码为：" + billId + "的数据");
+        }
+    }
+
 
 
 }

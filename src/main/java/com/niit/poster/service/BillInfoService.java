@@ -112,6 +112,15 @@ public interface BillInfoService {
      */
     Page<BillInfo> getAllBillJpaQuery(String keywords,Long billTypeId,Integer pageIndex, Integer pageSize);
 
+    /**
+     * 通过 JPA @Query注解 方式实现     登录用户 分页查询 根据 海报文字(bill_word) 和 海报类型ID(bill_type_id) 查询自己的海报信息
+     * @param keywords  查询关键字(海报文字)
+     * @param billTypeId 海报类型ID
+     * @param pageIndex  页码
+     * @param pageSize  页长
+     * @return
+     */
+    Page<BillInfo> getMyBills(String keywords,Long billTypeId, Integer pageIndex, Integer pageSize);
 
 //    增
     /**
@@ -137,5 +146,12 @@ public interface BillInfoService {
      * @return
      */
     boolean deleteBillJdbc(Long billId);
+
+    /**
+     * 通过 JPA 方式实现     登录用户 根据海报ID 删除自己的海报信息
+     * @param billId
+     * @return
+     */
+    boolean deleteBillJpa(Long billId) throws Exception;
 
 }

@@ -295,7 +295,7 @@ public class BillInfoResource {
     @GetMapping("/bill-info/all/jpa-query-page/{billTypeId}")
     @ApiImplicitParams({
         @ApiImplicitParam(name="keywords",value = "海报文字"),
-        @ApiImplicitParam(name = "billTypeId",value = "海报类型ID，全部为0"),
+        @ApiImplicitParam(name = "billTypeId",value = "海报类型ID，全部为0", paramType = "path", required = true),
         @ApiImplicitParam(name="pageIndex",value = "分页页码，起始为0"),
         @ApiImplicitParam(name="pageSize",value = "分页页长，默认为5")
     })
@@ -314,6 +314,37 @@ public class BillInfoResource {
 
     }
 
+    /**
+     *  通过 JPA @Query注解 方式实现     登录用户 分页查询 根据 海报文字(bill_word) 和 海报类型ID(bill_type_id) 查询自己的海报信息
+     * @param keywords  查询关键字(海报文字)
+     * @param billTypeId  海报类型ID
+     * @param pageIndex  页码
+     * @param pageSize  页长
+     * @return
+     */
+    @ApiOperation(value = "使用 JPA 登录用户查询自己的海报信息")
+    @GetMapping("/bill_infos/main/jpa")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name="keywords",value = "关键字(海报文字)"),
+        @ApiImplicitParam(name = "billTypeId",value = "海报类型ID，全部为0"),
+        @ApiImplicitParam(name="pageIndex",value = "分页页码，起始为0"),
+        @ApiImplicitParam(name="pageSize",value = "分页页长，默认为5")
+    })
+    public ResponseEntity getMyBills(
+        @RequestParam(required = false,defaultValue = "") String keywords,
+        @RequestParam(required = false,defaultValue = "0") Long billTypeId,
+        @RequestParam(required = false,defaultValue = "0") Integer pageIndex,
+        @RequestParam(required = false,defaultValue = "5") Integer pageSize
+    ){
+        try {
+            Page<BillInfo> result = billInfoService.getMyBills(keywords, billTypeId, pageIndex, pageSize);
+            return ResponseEntity.ok(result);
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new BadRequestAlertException(e.getMessage(),"getMyBills",e.getLocalizedMessage());
+        }
+
+    }
 
 //    增
     /**
@@ -367,6 +398,7 @@ public class BillInfoResource {
      */
     @ApiOperation(value = "使用 Jdbc 删除指定海报信息")
     @DeleteMapping("/bill-infos/delete/jdbc/{billId}")
+    @ApiImplicitParam(name = "billId", value = "海报编码")
     public ResponseEntity deleteBillJdbc(@PathVariable Long billId){
         try{
             boolean result=billInfoService.deleteBillJdbc(billId);
@@ -380,6 +412,31 @@ public class BillInfoResource {
             throw new BadRequestAlertException(e.getMessage(),"deleteBillJdbc",e.getLocalizedMessage());
         }
     }
+
+    /**
+     * 通过 JPA 方式实现     登录用户 根据海报ID 删除自己的海报信息
+     * @param billId
+     * @return
+     */
+    @ApiOperation(value = "使用 JPA 登录用户删除自己的海报信息")
+    @DeleteMapping("/bill-infos/delete/jpa/{billId}")
+    @ApiImplicitParam(name = "billId", value = "海报编码")
+    public ResponseEntity deleteBillJpa(@PathVariable Long billId){
+        try {
+            boolean result = billInfoService.deleteBillJpa(billId);
+            if (result){
+                return ResponseEntity.ok("删除成功");
+            }else {
+                return ResponseEntity.badRequest().build();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new BadRequestAlertException(e.getMessage(),"deleteBillJpa",e.getLocalizedMessage());
+        }
+
+    }
+
+
 
 
 }
