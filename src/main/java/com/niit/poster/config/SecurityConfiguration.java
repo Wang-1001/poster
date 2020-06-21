@@ -80,6 +80,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers("/api/register").permitAll()
             .antMatchers("/api/activate").permitAll()
             .antMatchers("/api/account/reset-password/init").permitAll()
+
+            //.permitAll()登录权限开放
+            .antMatchers("/api/bill-type/all/jpa").permitAll()
+            .antMatchers("/api/bill-info/all/jpa-page").permitAll()
+            //.authenticated()需登录访问
+
             .antMatchers("/api/account/reset-password/finish").permitAll()
             .antMatchers("/api/**").authenticated()
             .antMatchers("/management/health").permitAll()
