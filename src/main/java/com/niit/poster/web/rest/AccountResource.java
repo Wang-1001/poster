@@ -11,6 +11,7 @@ import com.niit.poster.web.rest.errors.*;
 import com.niit.poster.web.rest.vm.KeyAndPasswordVM;
 import com.niit.poster.web.rest.vm.ManagedUserVM;
 
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,14 +58,17 @@ public class AccountResource {
      * @throws EmailAlreadyUsedException {@code 400 (Bad Request)} if the email is already used.
      * @throws LoginAlreadyUsedException {@code 400 (Bad Request)} if the login is already used.
      */
+    @ApiOperation(value = "用户注册")
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
     public void registerAccount(@Valid @RequestBody ManagedUserVM managedUserVM) {
+        // 密码位数[4,100]
         if (!checkPasswordLength(managedUserVM.getPassword())) {
             throw new InvalidPasswordException();
         }
         User user = userService.registerUser(managedUserVM, managedUserVM.getPassword());
-        mailService.sendActivationEmail(user);
+        //邮箱验证
+        // mailService.sendActivationEmail(user);
     }
 
     /**
@@ -95,10 +99,11 @@ public class AccountResource {
 
     /**
      * {@code GET  /account} : get the current user.
-     *
+     *获取当前登录用户信息
      * @return the current user.
      * @throws RuntimeException {@code 500 (Internal Server Error)} if the user couldn't be returned.
      */
+    @ApiOperation(value = "获取当前登录用户信息")
     @GetMapping("/account")
     public UserDTO getAccount() {
         return userService.getUserWithAuthorities()
